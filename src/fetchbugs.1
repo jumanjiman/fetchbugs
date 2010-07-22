@@ -1,0 +1,76 @@
+.TH FETCHBUGS 1 "Jan 15, 2008" Linux "UNIX Reference Manual"
+.SH NAME
+fetchbugs \- retrieves entries from Bugzilla
+.SH SYNOPSIS
+.BR "fetchbugs [-SLqd] [-v version] [-s status] [-p priority] -u uri product"
+.SH DESCRIPTION
+Retrieves entries from Bugzilla and places them on stdout.
+.SH OPTIONS
+.TP .4i
+.B -S
+Summary format suitable as an index of bugs.
+.TP
+.B -L
+Long form. The bug and all comments are output.
+.TP
+.B -d
+Enables minimal debugging to stderr.
+.TP
+.BI "-p " priority
+Restrict the priority for bugs to be retrieved. The argument must match
+a bug_severity in the Bugzilla configuration. Omitting this option
+retrieves bugs for every priority. To use this option effectively,
+you must know the case-sensitive priorities for the target Bugzilla
+instance.
+.TP
+.B -q
+Quietly does its job. Without this option 
+.B fetchbugs
+announces its network activities on stderr.
+.TP
+.BI "-s " "status"
+Restrict the status of bugs to be retrieved. The argument must a bug_status
+in the target Bugzilla configuration. Omitting this option retrieves bugs
+for every status. To use this option effectively, you
+must know the case-sensitive status values for the target Bugzilla instance.
+.TP
+.BI "-v " "version"
+Restrict bugs to a specific
+.IR version
+of 
+.IR product .
+Omitting this option retrieves bugs for every version of 
+.IR product . 
+To use this option effectively, you must know the 
+case-sensitive versions of 
+.IR product
+for the target Bugzilla instance.
+.TP
+.BI "-u " "URI"
+URI of Bugzilla instance. This option overrides the 
+.B BZ_URI 
+environment variable.
+.\" .SH EXIT STATUS
+.SH ENVIRONMENT
+.IP BZ_URI
+.br
+The URI for the Bugzilla instance. Example:
+.br
+export BZ_URI="http://bugzilla.tld/bugzilla"
+.IP "HTTP_PROXY, HTTPS_PROXY"
+.br
+.I elinks 
+is used as the backend, so you may need to set environment 
+variables accordingly. Example:
+.br
+export HTTP_PROXY="http://[username@]host:port"
+.br
+export http_proxy="${HTTP_PROXY}"
+.\" .SH FILES
+.SH EXAMPLE
+fetchbugs -Sv 1.2 -u http://bugzilla.tld/bugzilla MyProduct
+.SH SEE ALSO
+.BR elinks (1)
+.\" .SH BUGS
+.SH AUTHORS 
+Paul Morgan <jumanjiman@gmail.com>

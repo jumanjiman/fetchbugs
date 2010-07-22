@@ -1,0 +1,158 @@
+#!/bin/bash
+
+# Copyright 2008 Paul Morgan. All rights reserved.
+# This script is licensed under GNU General Public License version 2.
+# You should have received a copy of the GPL along with this script.
+
+function usage () {
+  cat >&2 <<- EOF
+	Usage: $(basename $0) -u http://bugzilla.tld/bugzilla [-v version] PRODUCT
+	  -u URI for bugzilla
+	  -v version (restrict bugs to PRODUCT version)
+	  -q (quiet)
+	  -p priority (may be used multiple times)
+	  -S (short form, may be used with -L)
+	  -L (long form, may be used with -S)
+	  -s STATUS (may be used multiple times;
+	     defaults: NEW ASSIGNED NEEDINFO CLOSED INQA)
+	  -d (debug)
+	EOF
+}
+
+# defaults
+VERSION=""
+VERBOSE=true
+BZ_HOST="${BZ_URI}"
+DEF_BUG_STATUS="NEW ASSIGNED NEEDINFO CLOSED INQA"
+BUG_STATUS=""
+BROWSER="$(which elinks 2> /dev/null)"
+SHOW_SHORT=false
+SHOW_LONG=false
+DEBUG=false
+PRIORITY=""
+
+while getopts ":dSLu:qs:v:hp:" option
+do
+  case $option in
+    v ) VERSION="${OPTARG}";;
+    u ) BZ_HOST="${OPTARG}";;
+    s ) BUG_STATUS="${BUG_STATUS} ${OPTARG}";;
+    q ) VERBOSE=false;;
+    S ) SHOW_SHORT=true;;
+    L ) SHOW_LONG=true;;
+    d ) DEBUG=true;;
+    p ) PRIORITY="${PRIORITY} ${OPTARG}";;
+    h ) usage; exit 0;;
+    * ) usage; exit 1;;
+  esac
+done
+
+shift $(($OPTIND - 1))
+#  Decrements the argument pointer so it points to next argument.
+#  $1 now references the first non option item supplied on the command line
+#  if one exists.
+PRODUCT="${1}"
+
+if ! [ -x "${BROWSER}" ]; then
+  echo "Error: cannot seem to execute text-mode browser ${BROWSER}. Is it installed?"
+  exit 2
+fi
+
+if ! ${SHOW_SHORT}; then
+  # one has to be true
+  SHOW_LONG=true
+fi
+
+if [ -z "${PRODUCT}" -o -z "${BZ_HOST}" ]; then
+  usage
+  exit 1
+fi
+
+if [ -z "${BUG_STATUS}" ]; then
+  BUG_STATUS="${DEF_BUG_STATUS}"
+fi
+
+COLUMNS="all"
+# note: bug_id is always the first column
+COLUMNS="component,severity,reporter,resolution,status,summaryfull,platform,os"
+
+QUERY="${BZ_HOST}/buglist.cgi?query_format=&columnlist=${COLUMNS}&product=${PRODUCT}"
+[ -n "${VERSION}" ] && QUERY="${QUERY}&version=${VERSION}"
+for STATUS in ${BUG_STATUS}; do
+  QUERY="${QUERY}&bug_status=${STATUS}"
+done
+QUERY="${QUERY}&short_desc_type=allwordssubstr&short_desc=&long_desc_type=substring&long_desc=&Search=Search&ctype=csv"
+if [ -n "${PRIORITY}" ]; then
+  for PRI in ${PRIORITY}; do
+    QUERY="${QUERY}&bug_severity=${PRI}"
+  done
+fi
+
+
+# get list of all bugs
+BUG_LIST=$(${BROWSER} -source "${QUERY}" | tail -n +2 | tr -d "\042" | tr -s " " | sort -t, -k2,3)
+BUGS=$(echo "${BUG_LIST}" | awk -F, '{ print$1 }')
+
+# start with a clean file
+FILE="/dev/shm/${PRODUCT}-${VERSION}.$(date '+%s')"
+rm -f ${FILE}
+
+# put some simple comments in file
+cat >> $FILE << EOF
+  Errata for ${PRODUCT} ${VERSION}
+  from  ${BZ_HOST} 
+  as of $(date)
+
+  =========================================================
+
+EOF
+
+if ${DEBUG}; then
+  (
+  echo
+  echo -e "Query:\n${QUERY}"
+  echo
+  echo -e "Results:\n${BUG_LIST}" 
+  echo 
+  echo "===============================================" 
+  echo
+  ) >> ${FILE}
+fi
+
+# pretty-print the list in short form
+if ${SHOW_SHORT}; then
+  (
+  echo "Summary of bugs"
+  echo
+  echo "${BUG_LIST}" | awk -F, '{
+    print "";
+    print "Bug #      " $1;
+    print "Component: " $2 " " $9;
+    print "Severity:  " $3;
+    print "Status:    " $6 " " $5;
+    print "Reporter:  " $4;
+    print "Summary:   " $7;
+    print "";
+    print "---------------------------------------------------";
+  }' 
+  echo
+  ) >> ${FILE}
+fi
+
+
+# grab each bug's description
+if ${SHOW_LONG}; then
+  for BUG in $BUGS; do
+    [ ${VERBOSE} ] && echo fetching bug number ${BUG} >&2
+    ${BROWSER} -no-numbering -no-references -dump \
+         "${BZ_HOST}/long_list.cgi?buglist=${BUG}" \
+         | grep -v 'Full Text Bug' \
+         | grep -v 'Actions'       \
+         | grep -v 'Listing'       \
+         | grep -v '_______'       \
+         >> $FILE
+  done
+fi
+
+cat ${FILE}
+rm -f ${FILE}
