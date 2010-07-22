@@ -1,7 +1,7 @@
 %define MANDIR /usr/share/man/man1/
 Name: fetchbugs
 Version: 0.3
-Release: 6
+Release: 7
 BuildArch: noarch
 License: GPL v2
 Group: Applications/Publishing
@@ -56,6 +56,9 @@ install -m644 src/fetchbugs.1.gz %{buildroot}%{MANDIR}
 %doc %{MANDIR}/fetchbugs.1.gz
 
 %changelog
+* Thu Jul 22 2010 Paul Morgan <pmorgan@redhat.com> 0.3-7
+- new package built with tito
+
 * Sat Oct 18 2008 Paul Morgan <jumanjiman@gmail.com>
 - Cleaned up man page
 
