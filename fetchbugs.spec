@@ -51,7 +51,7 @@ install -m644 src/fetchbugs.1.gz %{buildroot}%{MANDIR}
 %files
 %defattr(-,root,root)
 /usr/local/bin/fetchbugs
-%doc src/README
+%doc README
 %doc src/COPYING
 %doc %{MANDIR}/fetchbugs.1.gz
 
