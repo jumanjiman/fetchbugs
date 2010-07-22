@@ -8,7 +8,7 @@ Group: Applications/Publishing
 Group: Administration
 Packager: Paul Morgan <jumanjiman@gmail.com>
 Summary: Command-line utility to fetch bug descriptions from a Bugzilla web site
-Source: %{name}-%{version}.tgz
+Source: %{name}-%{version}.tar.gz
 BuildRoot: /tmp/%{name}-%{version}-%{release}
 BuildRequires: elinks, gzip
 Requires: elinks
