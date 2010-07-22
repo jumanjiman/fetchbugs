@@ -40,7 +40,7 @@ fi
 # -----------------------------------------------
 
 %build
-gzip src/fetchbugs.1
+gzip -r src/fetchbugs.1
 
 %install
 mkdir -p %{buildroot}/usr/local/bin
