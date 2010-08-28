@@ -1,0 +1,35 @@
+== fetchbugs 
+
+===  LICENSE
+
+This script is Copyright 2008 Paul Morgan. All rights reserved.
+fetchbugs is licensed under the GNU General Public License v2.
+The file GPL contains this license.
+
+===  DESCRIPTION
+
+A simple script to fetch outstanding errata from a Bugzilla web site. 
+
+By default, fetchbugs reports its fetching activities on `stderr`.
+Use `-q` to quietly fetch the bugs. These messages go to `stderr` since
+the actual bug descriptions go to `stdout`.
+
+Run `fetchbugs -h` for other options.
+
+===  EXAMPLE
+
+The following command fetches bugs from the indicated
+URL for product 'myProduct' version 2.1 in which the 
+bug status is either 'INQA' or 'NEEDINFO', then redirects the
+output to a temporary file.
+
+----
+fetchbugs -u http://doczilla.example.com/doczilla \
+  -v 2.1 -s INQA -s NEEDINFO myProduct > /tmp/mybugs
+----
+
+===  TO-DO
+
+* Insert some error handling
+* Allow options to be placed in `~/.fetchbugsrc`
+
