@@ -1,4 +1,3 @@
-%define MANDIR /usr/share/man/man1/
 Name: fetchbugs
 Version: 0.3
 Release: 10
@@ -50,9 +49,9 @@ fi
 
 %install
 mkdir -p %{buildroot}/usr/local/bin
-mkdir -p %{buildroot}%{MANDIR}
+mkdir -p %{buildroot}%{_mandir}/man1
 install -m755 src/fetchbugs %{buildroot}/usr/local/bin
-%{__gzip} -c src/doc/fetchbugs.1 > %{buildroot}/%{_mandir}/man8/fetchbugs.1.gz
+%{__gzip} -c src/doc/fetchbugs.1 > %{buildroot}/%{_mandir}/man1/fetchbugs.1.gz
 
 
 %files
@@ -60,7 +59,7 @@ install -m755 src/fetchbugs %{buildroot}/usr/local/bin
 /usr/local/bin/fetchbugs
 %doc README.asciidoc
 %doc src/COPYING
-%doc %{MANDIR}/fetchbugs.1.gz
+%doc %{_mandir}/man1/fetchbugs.1.gz
 
 %changelog
 * Thu Jul 22 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-10
