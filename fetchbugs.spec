@@ -1,14 +1,13 @@
 Name: fetchbugs
 Version: 0.3
-Release: 14
-BuildArch: noarch
+Release: 15
 License: GPL v2
-Group: Applications/Publishing
-Group: Administration
-Packager: Paul Morgan <jumanjiman@gmail.com>
+Group: Applications/Productivity
 Summary: Command-line utility to fetch bug descriptions from a Bugzilla web site
 Source: %{name}-%{version}.tar.gz
-BuildRoot: /tmp/%{name}-%{version}-%{release}
+
+BuildRoot:  %(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
+buildarch: noarch
 
 BuildRequires: elinks
 buildrequires: gzip
@@ -21,47 +20,52 @@ fetchbugs is a command-line utility to retrieve detailed
 bug descriptions from a Bugzilla instance. It provides
 several options to tailor your query.
 
-%clean
-if [ "%{buildroot}" = "/" ]; then
-  /bin/echo 'Hey numskull. Fix your BUILDROOT!' >&2
-  exit 3
-else
-  rm -fr "%{buildroot}"
-fi
-
-# -----------------------------------------------
-
 %prep
-if [ "%{buildroot}" = "/" ]; then
-  /bin/echo 'Hey numskull. Fix your BUILDROOT!' >&2
-  exit 3
-else
-  rm -fr "%{buildroot}"
-fi
-%setup -n %{name}-%{version}
+%setup -q
 
-# -----------------------------------------------
+
+%clean
+%{__rm} -rf %{buildroot}
+
 
 %build
 # convert manpage
 /usr/bin/a2x -d manpage -f manpage doc/fetchbugs.1.asciidoc
 
 
+
 %install
-mkdir -p %{buildroot}/usr/local/bin
-mkdir -p %{buildroot}%{_mandir}/man1
-install -m755 src/fetchbugs %{buildroot}/usr/local/bin
+%{__rm} -rf %{buildroot}
+
+# executable
+%{__mkdir_p} %{buildroot}/%{_bindir}
+%{__install} -p  -m755 src/fetchbugs %{buildroot}/%{_bindir}
+
+# manpage
+%{__mkdir_p} %{buildroot}%{_mandir}/man1
 %{__gzip} -c doc/fetchbugs.1 > %{buildroot}/%{_mandir}/man1/fetchbugs.1.gz
+
+
 
 
 %files
 %defattr(-,root,root)
-/usr/local/bin/fetchbugs
+
+# executable
+%{_bindir}/fetchbugs
+
+# documentation
 %doc README.asciidoc
 %doc doc/COPYING
 %doc %{_mandir}/man1/fetchbugs.1.gz
 
+
+
+
 %changelog
+* Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-15
+- 
+
 * Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-14
 - fix typo
 
