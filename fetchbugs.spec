@@ -10,7 +10,11 @@ Packager: Paul Morgan <jumanjiman@gmail.com>
 Summary: Command-line utility to fetch bug descriptions from a Bugzilla web site
 Source: %{name}-%{version}.tar.gz
 BuildRoot: /tmp/%{name}-%{version}-%{release}
-BuildRequires: elinks, gzip
+
+BuildRequires: elinks
+buildrequires: gzip
+buildrequires: asciidoc
+
 Requires: elinks
 
 %description
@@ -40,13 +44,16 @@ fi
 # -----------------------------------------------
 
 %build
-gzip -r src/fetchbugs.1
+# convert manpage
+/usr/bin/a2x -d manpage -f manpage src/doc/fetchbugs.1.asciidoc
+
 
 %install
 mkdir -p %{buildroot}/usr/local/bin
 mkdir -p %{buildroot}%{MANDIR}
 install -m755 src/fetchbugs %{buildroot}/usr/local/bin
-install -m644 src/fetchbugs.1.gz %{buildroot}%{MANDIR}
+%{__gzip} -c src/doc/fetchbugs.1 > %{buildroot}/%{_mandir}/man8/fetchbugs.1.gz
+
 
 %files
 %defattr(-,root,root)

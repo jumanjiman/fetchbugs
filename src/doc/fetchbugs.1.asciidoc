@@ -1,0 +1,98 @@
+fetchbugs(1)
+============
+
+NAME
+----
+fetchbugs - retrieves entries from Bugzilla
+
+SYNOPSIS
+--------
+fetchbugs [-SLqd] [-v 'version'] [-s 'status'] [-p 'priority'] -u 'uri' 'product'
+
+DESCRIPTION
+-----------
+Retrieves entries from Bugzilla and places them on `stdout`.
+Redirect `stdout` to store the output.
+
+OPTIONS
+-------
+-S::
+Summary format suitable as an index of bugs.
+Long form (`-L`) takes priority over Short (`-S`) form.
+
+-L::
+Long form. The bug and all comments are output.
+Long form (`-L`) takes priority over Short (`-S`) form.
+
+-d::
+Enables minimal debugging to stderr.
+
+-p 'priority'::
+Restrict the 'priority' for bugs to be retrieved. The argument must match
+a bug_severity in the Bugzilla configuration. Omitting this option
+retrieves bugs for every priority. To use this option effectively,
+you must know the case-sensitive priorities for the target Bugzilla
+instance.
+
+-q::
+Quietly does its job. Without this option, fetchbugs
+announces its network activities on stderr.
+
+-s 'status'::
+Restrict the status of bugs to be retrieved. The argument must a bug_status
+in the target Bugzilla configuration. Omitting this option retrieves bugs
+for every status. To use this option effectively, you
+must know the case-sensitive 'status' values for the target Bugzilla instance.
+
+-v 'version'::
+Restrict bugs to a specific 'version' of 'product'.
+Omitting this option retrieves bugs for every 'version' of 'product'. 
+To use this option effectively, you must know the 
+case-sensitive versions of 'product'
+for the target Bugzilla instance.
+
+-u 'URI'::
+The 'URI' of the Bugzilla instance. This option overrides the 
+'BZ_URI' environment variable.
+
+ENVIRONMENT
+-----------
+BZ_URI::
+The 'URI' for the Bugzilla instance.
+
+
+HTTP_PROXY, HTTPS_PROXY::
+Set these environment variables as appropriate to reach the Internet.
+
+BROWSER::
+The 'elinks' browser is used as the backend by default, 
+but you can set the 'BROWSER' environment variable to choose another.
+Console-based browsers include `elinks(1)`, `lynx(1)`, and `w3m(1)`.
+
+
+EXAMPLE
+-------
+
+----
+export BZ_URI="http://bugzilla.tld/bugzilla"
+export HTTP_PROXY="http://[username[:password]@]host:port"
+export http_proxy="${HTTP_PROXY}"
+fetchbugs -Sv 1.2 MyProduct
+----
+
+SEE ALSO
+--------
+elinks(1)
+
+lynx(1)
+
+w3m(1)
+
+BUGS
+----
+Please report bugs and request enhancements
+to http://github.com/jumanjiman/fetchbugs/issues[]
+
+AUTHORS 
+-------
+Paul Morgan <jumanjiman@gmail.com>

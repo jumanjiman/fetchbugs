@@ -25,7 +25,8 @@ VERBOSE=true
 BZ_HOST="${BZ_URI}"
 DEF_BUG_STATUS="NEW ASSIGNED NEEDINFO CLOSED INQA"
 BUG_STATUS=""
-BROWSER="$(which elinks 2> /dev/null)"
+default_browser="$(which elinks 2> /dev/null)"
+BROWSER=${BROWSER:=$default_browser}
 SHOW_SHORT=false
 SHOW_LONG=false
 DEBUG=false
