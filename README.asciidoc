@@ -1,11 +1,5 @@
 == fetchbugs 
 
-===  LICENSE
-
-This script is Copyright 2008 Paul Morgan. All rights reserved.
-fetchbugs is licensed under the GNU General Public License v2.
-The file GPL contains this license.
-
 ===  DESCRIPTION
 
 A simple script to fetch outstanding errata from a Bugzilla web site. 
@@ -33,3 +27,8 @@ fetchbugs -u http://doczilla.example.com/doczilla \
 * Insert some error handling
 * Allow options to be placed in `~/.fetchbugsrc`
 
+===  LICENSE
+
+This script is Copyright 2008 Paul Morgan. All rights reserved.
+fetchbugs is licensed under the GNU General Public License v2.
+The file COPYING contains this license.
