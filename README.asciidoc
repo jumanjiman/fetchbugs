@@ -4,7 +4,7 @@
 
 A simple script to fetch outstanding errata from a Bugzilla web site. 
 
-By default, fetchbugs reports its fetching activities on `stderr`.
+By default, `fetchbugs` reports its fetching activities on `stderr`.
 Use `-q` to quietly fetch the bugs. These messages go to `stderr` since
 the actual bug descriptions go to `stdout`.
 
