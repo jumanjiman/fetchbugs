@@ -66,12 +66,6 @@ several options to tailor your query.
 * Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-17
 - cleanup spec file
 
-* Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-16
-- 
-
-* Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-15
-- 
-
 * Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-14
 - fix typo
 
