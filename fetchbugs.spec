@@ -1,6 +1,6 @@
 Name: fetchbugs
 Version: 0.3
-Release: 10
+Release: 11
 BuildArch: noarch
 License: GPL v2
 Group: Applications/Publishing
@@ -62,6 +62,9 @@ install -m755 src/fetchbugs %{buildroot}/usr/local/bin
 %doc %{_mandir}/man1/fetchbugs.1.gz
 
 %changelog
+* Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-11
+- convert manpage source to asciidoc
+
 * Thu Jul 22 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-10
 - moved README from src to root of tree
 
