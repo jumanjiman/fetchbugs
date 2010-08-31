@@ -43,6 +43,7 @@ Restrict the status of bugs to be retrieved. The argument must a bug_status
 in the target Bugzilla configuration. Omitting this option retrieves bugs
 for every status. To use this option effectively, you
 must know the case-sensitive 'status' values for the target Bugzilla instance.
+This option can be used multiple times.
 
 -v 'version'::
 Restrict bugs to a specific 'version' of 'product'.
