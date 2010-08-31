@@ -44,21 +44,21 @@ fi
 
 %build
 # convert manpage
-/usr/bin/a2x -d manpage -f manpage src/doc/fetchbugs.1.asciidoc
+/usr/bin/a2x -d manpage -f manpage doc/fetchbugs.1.asciidoc
 
 
 %install
 mkdir -p %{buildroot}/usr/local/bin
 mkdir -p %{buildroot}%{_mandir}/man1
 install -m755 src/fetchbugs %{buildroot}/usr/local/bin
-%{__gzip} -c src/doc/fetchbugs.1 > %{buildroot}/%{_mandir}/man1/fetchbugs.1.gz
+%{__gzip} -c doc/fetchbugs.1 > %{buildroot}/%{_mandir}/man1/fetchbugs.1.gz
 
 
 %files
 %defattr(-,root,root)
 /usr/local/bin/fetchbugs
 %doc README.asciidoc
-%doc src/COPYING
+%doc doc/COPYING
 %doc %{_mandir}/man1/fetchbugs.1.gz
 
 %changelog
