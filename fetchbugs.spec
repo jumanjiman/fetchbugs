@@ -1,6 +1,6 @@
 Name: fetchbugs
 Version: 0.3
-Release: 15
+Release: 16
 License: GPL v2
 Group: Applications/Productivity
 Summary: Command-line utility to fetch bug descriptions from a Bugzilla web site
@@ -63,6 +63,9 @@ several options to tailor your query.
 
 
 %changelog
+* Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-16
+- 
+
 * Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-15
 - 
 
