@@ -1,6 +1,6 @@
 Name: fetchbugs
-Version: 0.4
-Release: 0%{?dist}
+Version: 0.5
+Release: 1%{?dist}
 License: GPL v2
 Group: Applications/Productivity
 Summary: Command-line utility to fetch bug descriptions from a Bugzilla web site
@@ -64,6 +64,11 @@ several options to tailor your query.
 
 
 %changelog
+* Sun Oct 03 2010 Paul Morgan <jumanjiman@gmail.com> 0.5-1
+- clean up spec (jumanjiman@gmail.com)
+- changed default_tagger to VersionTagger (jumanjiman@gmail.com)
+- removed bogus changelog entries from spec (jumanjiman@gmail.com)
+
 * Mon Aug 30 2010 Paul Morgan <jumanjiman@gmail.com> 0.3-17
 - cleanup spec file
 
