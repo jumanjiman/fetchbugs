@@ -1,6 +1,6 @@
 Name: fetchbugs
-Version: 0.3
-Release: 17
+Version: 0.4
+Release: 0%{?dist}
 License: GPL v2
 Group: Applications/Productivity
 Summary: Command-line utility to fetch bug descriptions from a Bugzilla web site
@@ -12,6 +12,7 @@ buildarch: noarch
 BuildRequires: elinks
 buildrequires: gzip
 buildrequires: asciidoc
+buildrequires: redhat-rpm-config
 
 Requires: elinks
 
